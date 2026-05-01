@@ -164,7 +164,6 @@ fn run_node(args: Args) -> Result<(), Box<dyn std::error::Error>> {
     loop {
         // Heartbeat every 60 seconds
         thread::sleep(Duration::from_secs(60));
-        
         // In future phases, this will:
         // - Check for incoming tasks
         // - Report resource availability
