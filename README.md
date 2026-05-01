@@ -1,66 +1,151 @@
 # 🌊 Fayd Protocol
 
-> **Decentralized Compute Protocol for the AI Era**
->
-> *Turning idle devices into verifiable compute infrastructure.*
+**Decentralized Compute Protocol for Verifiable AI Infrastructure**
 
-<div align="center">
-
+[![Rust CI](https://github.com/madanimkhitar22-beep/fayd-protocol/actions/workflows/rust.yml/badge.svg)](https://github.com/madanimkhitar22-beep/fayd-protocol/actions/workflows/rust.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/Built%20with-Rust-orange.svg)](https://www.rust-lang.org/)
-[![Status](https://img.shields.io/badge/Status-Early%20Development-yellow.svg)]()
-[![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Rust](https://img.shields.io/badge/Rust-1.70+-orange.svg)](https://www.rust-lang.org/)
+[![Status](https://img.shields.io/badge/Status-Phase%200%20%7C%20Foundation-yellow.svg)](ROADMAP.md)
+[![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+> **Turning idle devices into verifiable compute infrastructure.**
+> 
+> Mobile-first • Deterministic • Auditable • Open
+
+[Manifesto](MANIFESTO.md) • [Architecture](docs/architecture.md) • [Roadmap](ROADMAP.md) • [Contributing](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-## 💡 The Problem
+## 📌 Overview
 
-AI compute demand is exploding, but infrastructure is centralized, expensive, and inaccessible.
+Fayd is an open protocol that enables any device — from phones to servers — to contribute idle compute to a decentralized network. It provides a foundation for verifiable, distributed AI workloads without centralized infrastructure.
 
-- **Scarcity**: GPU shortages delay research and innovation.
-- **Cost**: Cloud compute prices lock out independent developers and researchers.
-- **Waste**: Billions of capable devices sit idle worldwide.
-- **Centralization**: A handful of providers control the infrastructure layer.
+### Core Properties
 
-## 🌊 The Solution
+| Property | Description |
+|----------|-------------|
+| **Deterministic** | Tasks produce identical results across all nodes |
+| **Verifiable** | Cryptographic proof of execution integrity |
+| **Sandboxed** | WebAssembly isolation with resource bounds |
+| **Accessible** | Runs on ARM/x86, Linux/Android/macOS/Windows |
+| **Minimal** | <50MB binary, <100MB memory footprint |
 
-**Fayd** is an open protocol that enables any device to contribute idle compute to a decentralized network.
+---
 
-We're building infrastructure where:
-- **Anyone** can contribute compute from phones, laptops, or servers.
-- **Anyone** can access affordable compute for AI workloads.
-- **Every computation** is verifiable and auditable.
-- **Privacy and security** are built into the protocol.
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                           Fayd Network                                      │
+│                                                                              │
+│       ┌──────────┐     ┌──────────┐     ┌──────────┐                 │
+│        │   Node   │ ◄──► │   Node   │ ◄──► │  Node    │                   │
+│        │ (Phone)  │       │ (Laptop) │       │ (Server) │                 │
+│       └────┬─────┘     └────┬─────┘     └────┬─────┘                  │
+│              │                 │                │                          │
+│              └──────────────┼──────────────┘                           │
+│                                │                                           │
+│                     ┌────────▼───────┐                                   │
+│                       │   Discovery    │                                   │
+│                       │     (DHT)      │                                    │
+│                     └─────────────────┘                                 │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                                 Node Internals                              │
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────┐     │
+│  │                           Fayd Node Runtime                        │   │
+│  │                                                                     │   │
+│  │        ┌──────────┐  ┌──────────┐  ┌─────────────────────┐   │   │
+│  │        │  CLI       │  │ Config    │   │  Resource Monitor     │   │   │
+│  │        └──────────┘  └──────────┘  └─────────────────────┘   │   │
+│  │                                                                     │   │
+│  │       ┌─────────────────────────────────────────────────┐   │   │
+│  │       │                      Task Engine                        │   │   │
+│  │       │      ┌──────────┐  ┌──────────┐  ┌──────────────┐ │   │   │
+│  │       │        │ Scheduler│   │ Executor │     │  Verifier  │  │   │   │
+│  │              └──────────┘  └──────────┘  └──────────────┘ │   │   │
+│  │       └─────────────────────────────────────────────────┘  │   │
+│  │                                                                      │   │
+│  │      ┌─────────────────────────────────────────────────┐   │   │
+│  │      │       Wasm Sandbox                                        │   │   │
+│  │      │  • Isolated Execution                                    │   │   │
+│  │      │  • Resource Bounds                                        │   │   │
+│  │      │  • Deterministic Runtime                                 │   │   │
+│  │      └─────────────────────────────────────────────────┘    │   │
+│  └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+See [Architecture Docs](docs/architecture.md) for detailed specifications.
 
 ---
 
 ## 🚀 Quick Start
 
-### Run a Node
+### Prerequisites
+
+- **Rust** 1.70 or later ([Install](https://www.rust-lang.org/tools/install))
+- **Git** ([Install](https://git-scm.com/downloads))
+
+### Build & Run
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/madanimkhitar22-beep/fayd-protocol.git
 cd fayd-protocol/fayd-node
 
-# Build and run
-cargo run --release
+# Build release binary
+cargo build --release
+
+# Run node
+./target/release/fayd-node
 ```
 
-Expected output:
+### Run with Options
+
+```bash
+# Custom configuration
+cargo run --release -- \
+    --name research-node \
+    --max-cpu 40 \
+    --max-memory 512
+```
+
+### Expected Output
+
 ```
 🌊 Fayd Node Starting
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Node ID   : fx_01a2b3c4...
-Name      : anonymous
-Version   : 0.1.0
-Status    : idle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Connected to Fayd test mesh...
-Ready to receive tasks.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Node ID     : fx_01a2b3c4d5e6f789
+Name        : research-node
+Version     : 0.1.0
+Status      : idle
+Max CPU     : 40%
+Max Memory  : 512 MB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Connected to Fayd test mesh
+✓ Ready to receive tasks
 ```
+
+---
+
+## 🛠️ Technical Stack
+
+| Layer | Technology | Rationale |
+|-------|------------|-----------|
+| **Language** | Rust | Memory safety, zero-cost abstractions |
+| **Runtime** | WebAssembly | Portable sandboxing, multi-language |
+| **Async** | Tokio | Battle-tested async runtime |
+| **Crypto** | BLAKE3, Ed25519 | Fast hashing, secure signatures |
+| **CLI** | clap | Industry-standard argument parsing |
+| **Logging** | tracing | Structured, filterable logs |
+| **Serialization** | serde | Efficient, type-safe serialization |
+| **CI** | GitHub Actions | Automated quality gates |
 
 ---
 
@@ -68,21 +153,41 @@ Ready to receive tasks.
 
 | Document | Description |
 |----------|-------------|
-| [MANIFESTO](MANIFESTO.md) | Our values, principles, and vision |
+| [MANIFESTO](MANIFESTO.md) | Core beliefs, principles, and scope |
+| [Architecture](docs/architecture.md) | Technical design, components, threat model |
+| [Vision](docs/vision.md) | Problem statement and success metrics |
 | [ROADMAP](ROADMAP.md) | Development phases and milestones |
-| [Architecture](docs/architecture.md) | Technical design and components |
-| [Vision](docs/vision.md) | The why behind Fayd |
 | [FAQ](docs/faq.md) | Frequently asked questions |
+| [CONTRIBUTING](CONTRIBUTING.md) | Contribution guidelines and setup |
+| [Examples](examples/hello-node.md) | Usage examples and platform guides |
 
 ---
 
 ## 🤝 Contributing
 
-Fayd is built by a global community. We welcome contributions of all kinds.
+Fayd is built by a global community of engineers and researchers.
 
-- Read [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
-- Check out open issues to find ways to contribute.
-- Join discussions in GitHub Issues.
+### Good Starting Points
+
+- Review [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
+- Check issues labeled [`good-first-issue`](https://github.com/madanimkhitar22-beep/fayd-protocol/issues?q=is:issue+is:open+label:good-first-issue)
+- Join technical discussions in GitHub Issues
+
+### Development Workflow
+
+```bash
+# Clone and build
+git clone https://github.com/madanimkhitar22-beep/fayd-protocol.git
+cd fayd-protocol/fayd-node
+cargo build
+
+# Run tests
+cargo test
+
+# Format and lint
+cargo fmt
+cargo clippy
+```
 
 ---
 
@@ -92,9 +197,20 @@ Fayd Protocol is open source under the [Apache 2.0 License](LICENSE).
 
 ---
 
+## ⚠️ Status & Disclaimer
+
+**Current Phase**: Phase 0 — Foundation
+
+This repository is in **early development**. The protocol is not yet ready for production workloads. Features, APIs, and specifications may evolve based on community feedback and technical validation.
+
+See [ROADMAP.md](ROADMAP.md) for development timeline.
+
+---
+
 <div align="center">
 
 **Compute should be accessible, verifiable, and distributed.**
 
+🌊 *From abundance, for everyone.*
+
 </div>
-```
