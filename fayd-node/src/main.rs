@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use std::process;
 use std::thread;
 use std::time::Duration;
-use tracing::{info, warn};
+use tracing::info;
 use tracing_subscriber::{fmt, EnvFilter};
 
 // ============================================================================
@@ -164,6 +164,7 @@ fn run_node(args: Args) -> Result<(), Box<dyn std::error::Error>> {
     loop {
         // Heartbeat every 60 seconds
         thread::sleep(Duration::from_secs(60));
+
         // In future phases, this will:
         // - Check for incoming tasks
         // - Report resource availability
