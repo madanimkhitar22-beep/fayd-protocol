@@ -1,0 +1,56 @@
+# ============================================
+# Fayd Protocol - .gitignore
+# ============================================
+
+# --- Rust ---
+/target
+**/*.rs.bk
+Cargo.lock
+
+# --- IDE & Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Build Artifacts ---
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.lib
+*.exe
+*.out
+*.app
+
+# --- Temporary ---
+*.tmp
+*.temp
+*.log
+*.bak
+
+# --- Documentation ---
+docs/**/*.pdf
+docs/**/*.png
+docs/**/*.jpg
+
+# --- Secrets & Config (Safety) ---
+*.env
+.env
+*.secret
+*.key
+credentials.json
+
+# --- Node Modules (if any JS tooling added later) ---
+node_modules/
