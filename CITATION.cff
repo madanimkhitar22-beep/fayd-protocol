@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+  title: "Fayd Protocol"
+  message: "If you use Fayd Protocol in your research, please cite this repository."
+  type: software
+  authors:
+    - family-names: "El Mkhitar"
+      given-names: "El Madani"
+      orcid: "https://orcid.org/0009-0009-6663-902X"
+      affiliation: "Independent Researcher"
+  repository-code: "https://github.com/madanimkhitar22-beep/fayd-protocol"
+  license: "Apache-2.0"
+  version: "0.1.0"
+  date-released: 2026-05-03
+  keywords:
+    - "decentralized compute"
+    - "verifiable execution"
+    - "ai infrastructure"
+    - "rust"
+    - "protocol"
